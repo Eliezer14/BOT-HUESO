@@ -1,0 +1,23 @@
+{
+  "name": "hiveapp",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "dependencies": {
+    "@hiveio/hive-js": "^2.0.5",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^16.0.0",
+    "express": "~4.16.1",
+    "hive-bot": "^0.6.4",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1",
+    "sscjs": "0.0.9"
+  }
+}
