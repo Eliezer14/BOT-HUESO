@@ -2,7 +2,7 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-/* var logger = require('morgan'); */
+var logger = require('morgan');
 
 const indexApp = require('./app/main.js');
 
@@ -10,7 +10,7 @@ const indexApp = require('./app/main.js');
 var app = express();
 
 
-/* app.use(logger('dev')); */
+app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
