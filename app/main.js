@@ -4,6 +4,8 @@ const hive = require('@hiveio/hive-js');
 
 require('dotenv').config()
 
+const constantes = require('./constantes.js');
+
 const SSC = require('sscjs');
 
 const ssc = new SSC('https://api.hive-engine.com/rpc');
@@ -23,18 +25,35 @@ const bot = new HiveBot({username, activeKey});
 
 /* requerimiento de pago */
 
-const requeridacantida = 10000;
+const requeridacantida = constantes.requeridacantida;
 
-const cantida_hp = 10;
+const cantida_hp = constantes.cantida_hp;
 
-const cantida_base = 10;
+const cantida_base = constantes.cantida_base;
 
-const cantida_uso = 2;
+const cantida_uso = constantes.cantida_uso;
+
+/* configuracion del bot */
+
+const comando = constantes.comando;
+
+const simbolo = constantes.simbolo;
+
+/* mensajes del bot */
+
+const commentario = constantes.commentario;
+
+const commentario_sin_hueso_suficiente = constantes.commentario_sin_hueso_suficiente;
+
+const commentario_sin_usos = constantes.commentario_sin_usos;
+
+const commentario_autovoto = constantes.commentario_autovoto;
+
 
 
 bot.onComment((data, responder)=> {
 
-	if (data.body.includes('!HUESO') && data.author != username) {
+	if (data.body.includes(comando) && data.author != username) {
 		
 		let autovotos = 0;
 
@@ -42,7 +61,7 @@ bot.onComment((data, responder)=> {
 		
 		console.log(`Comando detectado del usuario ${user}`)
 		
-		ssc.findOne("tokens", "balances",  { "symbol": 'HUESO', "account": user }, (err, res) => {
+		ssc.findOne("tokens", "balances",  { "symbol": simbolo, "account": user }, (err, res) => {
 			
 		if (res) {
 			
@@ -52,9 +71,9 @@ bot.onComment((data, responder)=> {
 				
 			if (cantida === 0) {
 					
-				responder.comment(`testeo del Bot Hueso, ${data.author} no tiene suficiente token HUESO, ${cantida_uso} uso por cada ${requeridacantida} token HUESO en tu cuenta`);
+				responder.comment(commentario_sin_hueso_suficiente);
 					
-				console.log(`El usuario ${user} no tiene hueso suficiente`)
+				console.log(`El usuario ${user} no tiene ${simbolo} suficiente`)
 			} else {
 				
 				hive.api.getAccountHistory(user, -1, 250, ...walletOperationsBitmask, function(err, result) {
@@ -71,7 +90,7 @@ bot.onComment((data, responder)=> {
 	
 						const fecha = new Date(items[1].timestamp).toLocaleDateString();
 	
-						if (items[1].op[0] === "comment" && op.author === user && (op.body).includes("!HUESO") && date_locate === fecha) {
+						if (items[1].op[0] === "comment" && op.author === user && (op.body).includes(comando) && date_locate === fecha) {
 							
 							json++
 							
@@ -83,7 +102,7 @@ bot.onComment((data, responder)=> {
 						
 					});
 					
-					console.log(`El usuario ${user} ha ejecutado ${json} veces el Comando !HUESO y tiene ${cantida} usos maximos por día y se autovoto ${autovotos} veces `)
+					console.log(`El usuario ${user} ha ejecutado ${json} veces el Comando ${comando} y tiene ${cantida} usos maximos por día y se autovoto ${autovotos} veces `)
 					
 					let usos =  cantida - json;				
 						
@@ -93,7 +112,7 @@ bot.onComment((data, responder)=> {
 						
 					} else {
 						
-						responder.comment(`testeo del Bot Hueso, ${data.author} no tiene suficiente usos del comando !HUESO`);
+						responder.comment(commentario_sin_usos);
 					
 						console.log(`El usuario ${user} no tiene usos suficiente`)
 						
@@ -109,30 +128,14 @@ bot.onComment((data, responder)=> {
 				"contractName": "tokens",
 				"contractAction": "transfer",
 				"contractPayload": {
-					"symbol": "HUESO",
+					"symbol": simbolo,
 					"to": data.parent_author.toString(),
 					"quantity": cantida_base.toString(),
 					"memo": ""
 					}
 				}
 
-				const commentario = `![1.png](https://files.peakd.com/file/peakd-hive/nahueldare3627/23wgKh4Rm5uw2BHNEvtU7VbJp45qU2im4Sbw4zZt1AayJpEV9WN1y3XeUaH26WKNGLvyD.png)
-
-<center>Se te han entregado 10 TOKEN HUESO
-Conoce el Proyecto Big Dog Bone [lee su White Paper aquí.](https://mundo-virtual.gitbook.io/untitled/)
-Si deseas ganar Tokens del Proyecto Big Dog Bone, usa en tus post las etiquetas #hueso y #mundovirtual
-Apoya nuestro trail de votación aquí [mv-curacion](https://hive.vote/dash.php?trail=mv-curacion&i=1)
-Por cada 10k de hueso en tu cartera puedes usar 2 veces al día el comando !HUESO en los comentarios de los post.</center>
-
-
----
-
-
-<center>You have been given 10 TOKEN HUESO.
-Learn about the Big Dog Bone  Project [read their White Paper here.](https://mundo-virtual.gitbook.io/untitled/)
-If you want to win Big Dog Bone Project Tokens, use the hashtags #hueso and #mundovirtual in your posts.
-Support our voting trail here [mv-curation](https://hive.vote/dash.php?trail=mv-curacion&i=1)
-For every 10k of hueso in your wallet you can use 2 times a day the command !HUESO in the comments of the posts.</center>`
+				
 
 				if (data.parent_author != username) {
 				
@@ -146,12 +149,12 @@ For every 10k of hueso in your wallet you can use 2 times a day the command !HUE
 						
 						hive.broadcast.customJson(activeKey, [username], [], "ssc-mainnet-hive", JSON.stringify(pago))
 				
-				        console.log(`El usuario ${user} tiene ${usos} usos, y se transfirieron ${cantida_base} HUESO a ${data.parent_author}`)
+				        console.log(`El usuario ${user} tiene ${usos} usos, y se transfirieron ${cantida_base} ${simbolo} a ${data.parent_author}`)
 							
 							
 						} else {
 							
-							responder.comment(`testeo del Bot Hueso, no te puedes autovotar mas de una vez al día`);
+							responder.comment(commentario_autovoto);
 							
 							console.log(`El usuario ${user} tiene ${usos} usos, y alcanzo el limite de autovoto`)
 							
@@ -165,7 +168,7 @@ For every 10k of hueso in your wallet you can use 2 times a day the command !HUE
 						
 						hive.broadcast.customJson(activeKey, [username], [], "ssc-mainnet-hive", JSON.stringify(pago))
 				
-				        console.log(`El usuario ${user} tiene ${usos} usos, y se transfirieron ${cantida_base} HUESO a ${data.parent_author}`)
+				        console.log(`El usuario ${user} tiene ${usos} usos, y se transfirieron ${cantida_base} ${simbolo} a ${data.parent_author}`)
 						
 					}
 
@@ -179,7 +182,7 @@ For every 10k of hueso in your wallet you can use 2 times a day the command !HUE
 					
 					hive.broadcast.customJson(activeKey, [username], [], "ssc-mainnet-hive", JSON.stringify(pago))
 					
-					console.log(`El usuario ${user} tiene ${usos} usos, y se transfirieron ${cantida_base} HUESO a ${pago.contractPayload.to}`)
+					console.log(`El usuario ${user} tiene ${usos} usos, y se transfirieron ${cantida_base} ${simbolo} a ${pago.contractPayload.to}`)
 					
 				}	
 			}
