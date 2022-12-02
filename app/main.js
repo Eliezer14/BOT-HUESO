@@ -195,13 +195,12 @@ bot.onComment((data, responder)=> {
 		
 	}
 	
-	/* if (data.author === username) {
-
+	if (data.author === username) {
 		
 		responder.upvote();
 		
 	}
- */
+	
 });
 
 if (username != "Not found" && activeKey != "Not found") {
