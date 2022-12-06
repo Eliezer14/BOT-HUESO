@@ -4,8 +4,14 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-const indexApp = require('./app/main.js');
 
+/* archivo del bot */
+
+const bot = require('./app/main.js');
+
+/* archivo del los delegadores */
+
+const curacion = require('./app/delegadores.js');
 
 var app = express();
 
