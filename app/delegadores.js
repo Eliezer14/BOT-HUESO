@@ -77,8 +77,9 @@ function iniciar_pagos() {
 				
 			}
 	
+			if (items.delegator != 'blocktrades.com') {
 			usuarios.push({'cuenta': items.delegator, 'cantidad': hueso_pago.toString(), 'hp': hivePower.toString()})
-	
+			}
 		}
 	
 		});
@@ -111,7 +112,7 @@ function iniciar_pagos() {
 					}
 				}
 			
-			console.log(pago)
+			hive.broadcast.customJson(activeKey, [username], [], "ssc-mainnet-hive", JSON.stringify(pago))
 			
 			i++
 			
@@ -127,6 +128,49 @@ function iniciar_pagos() {
 			
 		}
 	}
+	
+		/* falta filtado */
+	
+	/* hive.api.getAccountHistory('bot-bdbhueso', -1, 250, function(err, result) {
+	
+		let date = new Date();
+
+		date.setDate(date.getDate() - 1);
+
+		let dates = date.toJSON().split('.');
+
+		const date_locate = new Date(dates[0]).toLocaleDateString();
+		
+		let pagos = 0;
+					
+		result.forEach((items) => {
+	
+			let op = items[1].op[1];
+	
+			const fecha = new Date(items[1].timestamp).toLocaleDateString();
+	
+			if (items[1].op[0] === "custom_json" && date_locate === fecha) {
+							
+				pagos++		
+			}
+						
+			});
+			
+			const comision = {
+				"contractName": "tokens",
+				"contractAction": "transfer",
+				"contractPayload": {
+					"symbol": simbolo,
+					"to": 'eliezer65',
+					"quantity": parseInt(pagos * 2).toString(),
+					"memo": `Se han hecho ${pagos} transferencias el dia de anterior`
+					}
+				}
+
+			console.log(comision)
+	}); */
+	
+	
 }
 
 

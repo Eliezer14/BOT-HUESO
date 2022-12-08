@@ -134,7 +134,7 @@ bot.onComment((data, responder)=> {
 					"memo": `Comando usado por ${user}`
 					}
 				}
-				let comision = {
+				/* let comision = {
 				"contractName": "tokens",
 				"contractAction": "transfer",
 				"contractPayload": {
@@ -143,7 +143,7 @@ bot.onComment((data, responder)=> {
 					"quantity": '2',
 					"memo": "comision"
 					}
-				}
+				} */
 
 				
 
@@ -163,7 +163,7 @@ bot.onComment((data, responder)=> {
 						
 						/* pago comision */
 						
-						hive.broadcast.customJson(activeKey, [username], [], "ssc-mainnet-hive", JSON.stringify(comision))
+						/* hive.broadcast.customJson(activeKey, [username], [], "ssc-mainnet-hive", JSON.stringify(comision)) */
 				
 				        console.log(`El usuario ${user} tiene ${usos} usos, y se transfirieron ${cantida_base} ${simbolo} a ${data.parent_author}`)
 							
@@ -188,7 +188,7 @@ bot.onComment((data, responder)=> {
 				
 						/* pago comision */
 						
-						hive.broadcast.customJson(activeKey, [username], [], "ssc-mainnet-hive", JSON.stringify(comision))
+						/* hive.broadcast.customJson(activeKey, [username], [], "ssc-mainnet-hive", JSON.stringify(comision)) */
 				
 				        console.log(`El usuario ${user} tiene ${usos} usos, y se transfirieron ${cantida_base} ${simbolo} a ${data.parent_author}`)
 						
@@ -217,13 +217,13 @@ bot.onComment((data, responder)=> {
 		
 	}
 	
-	if (data.author === username) {
+	/* if (data.author === username) {
 		
 		responder.upvote('50');
 		
 		console.log('El bot se autovoto')
 		
-	}
+	} */
 
 });
 
