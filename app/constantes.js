@@ -18,7 +18,20 @@ const simbolo = 'HUESO';
 
 /* mensajes del bot */
 
-const commentario = `![1.png](https://files.peakd.com/file/peakd-hive/nahueldare3627/23wgKh4Rm5uw2BHNEvtU7VbJp45qU2im4Sbw4zZt1AayJpEV9WN1y3XeUaH26WKNGLvyD.png)
+const lista_comandos = ['!LOL', '!LUV', '!PGM'];
+
+let rotacion_comandos = -1;
+
+
+function commentario() {
+
+rotacion_comandos++
+
+if (rotacion_comandos >= lista_comandos.length) {
+	rotacion_comandos = 0
+}
+
+return `![1.png](https://files.peakd.com/file/peakd-hive/nahueldare3627/23wgKh4Rm5uw2BHNEvtU7VbJp45qU2im4Sbw4zZt1AayJpEV9WN1y3XeUaH26WKNGLvyD.png)
 
 <center>Se te han entregado 10 TOKEN HUESO
 Conoce el Proyecto Big Dog Bone [lee su White Paper aquí.](https://mundo-virtual.gitbook.io/untitled/)
@@ -34,7 +47,10 @@ Por cada 10k de hueso en tu cartera puedes usar 2 veces al día el comando !HUES
 Learn about the Big Dog Bone  Project [read their White Paper here.](https://mundo-virtual.gitbook.io/untitled/)
 If you want to win Big Dog Bone Project Tokens, use the hashtags #hueso and #mundovirtual in your posts.
 Support our voting trail here [mv-curation](https://hive.vote/dash.php?trail=mv-curacion&i=1)
-For every 10k of hueso in your wallet you can use 2 times a day the command !HUESO in the comments of the posts.</center>`;
+For every 10k of hueso in your wallet you can use 2 times a day the command !HUESO in the comments of the posts.</center>
+
+<center>${lista_comandos[rotacion_comandos]}</center>`;
+}
 
 const commentario_sin_hueso_suficiente = `<center>LO SENTIMOS, en este momento no tienes Hueso suficiente para usar el comando 😦
 Conoce el Proyecto Big Dog Bone [lee su White Paper aquí.](https://mundo-virtual.gitbook.io/untitled/)

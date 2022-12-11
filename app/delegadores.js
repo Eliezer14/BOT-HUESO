@@ -4,6 +4,12 @@ const axios = require('axios').default;
 
 require('dotenv').config()
 
+const { ChainTypes, makeBitMaskFilter } = require('@hiveio/hive-js/lib/auth/serializer')
+const op = ChainTypes.operations
+const walletOperationsBitmask = makeBitMaskFilter([
+  op.custom_json
+]);
+
 const constantes = require('./constantes.js');
 
 /* datos de la cuenta del bot */
@@ -129,9 +135,7 @@ function iniciar_pagos() {
 		}
 	}
 	
-		/* falta filtado */
-	
-	/* hive.api.getAccountHistory('bot-bdbhueso', -1, 250, function(err, result) {
+	hive.api.getAccountHistory('bot-bdbhueso', -1, 200, ...walletOperationsBitmask, function(err, result) {
 	
 		let date = new Date();
 
@@ -142,7 +146,9 @@ function iniciar_pagos() {
 		const date_locate = new Date(dates[0]).toLocaleDateString();
 		
 		let pagos = 0;
-					
+		
+		if (result) {
+		
 		result.forEach((items) => {
 	
 			let op = items[1].op[1];
@@ -167,8 +173,10 @@ function iniciar_pagos() {
 					}
 				}
 
-			console.log(comision)
-	}); */
+			hive.broadcast.customJson(activeKey, [username], [], "ssc-mainnet-hive", JSON.stringify(comision))
+	
+		}
+	});
 	
 	
 }

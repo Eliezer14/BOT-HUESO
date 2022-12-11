@@ -1,5 +1,7 @@
 const { HiveBot } = require('hive-bot');
 
+const axios = require('axios').default;
+
 const hive = require('@hiveio/hive-js');
 
 require('dotenv').config()
@@ -8,7 +10,49 @@ const constantes = require('./constantes.js');
 
 const SSC = require('sscjs');
 
-const ssc = new SSC('https://api.hive-engine.com/rpc');
+const ssc = new SSC('https://engine.rishipanthee.com/contracts');
+
+async function findOne(contract, table, query, callback) {
+  // Headers
+  let config = {
+    headers: {
+      "Content-Type": "application/json",
+      "Cache-Control": "no-cache",
+    },
+  };
+  // Request POST body data
+  let body = JSON.stringify([
+    {
+      method: 'findOne',
+      jsonrpc: "2.0",
+      params: {
+        contract: contract,
+        table: table,
+        query: query,
+        indexes: [],
+      },
+      id: 1,
+    },
+  ]);
+  // Make request.
+  
+  axios.post(
+    "https://engine.rishipanthee.com/contracts",
+    body,
+    config
+  ).then(function (response) {
+  
+  callback(null, response.data[0].result)
+  
+  }).catch(function (error) {
+    // handle error
+	
+	callback(error, null)
+	
+  }) 
+  return false
+}
+
 
 const { ChainTypes, makeBitMaskFilter } = require('@hiveio/hive-js/lib/auth/serializer')
 const op = ChainTypes.operations
@@ -41,14 +85,11 @@ const simbolo = constantes.simbolo;
 
 /* mensajes del bot */
 
-const commentario = constantes.commentario;
-
 const commentario_sin_hueso_suficiente = constantes.commentario_sin_hueso_suficiente;
 
 const commentario_sin_usos = constantes.commentario_sin_usos;
 
 const commentario_autovoto = constantes.commentario_autovoto;
-
 
 
 bot.onComment((data, responder)=> {
@@ -61,7 +102,7 @@ bot.onComment((data, responder)=> {
 		
 		console.log(`Comando detectado del usuario ${user}`)
 		
-		ssc.findOne("tokens", "balances",  { "symbol": simbolo, "account": user }, (err, res) => {
+		findOne('tokens', 'balances', { "symbol": 'HUESO', "account": 'eliezer65' }, (err, res) => {
 			
 		if (res) {
 			
@@ -134,18 +175,6 @@ bot.onComment((data, responder)=> {
 					"memo": `Comando usado por ${user}`
 					}
 				}
-				/* let comision = {
-				"contractName": "tokens",
-				"contractAction": "transfer",
-				"contractPayload": {
-					"symbol": simbolo,
-					"to": 'eliezer65',
-					"quantity": '2',
-					"memo": "comision"
-					}
-				} */
-
-				
 
 				if (data.parent_author != username) {
 				
@@ -155,18 +184,13 @@ bot.onComment((data, responder)=> {
 						
 						if (autovotos <= 1) {	
 							
-						responder.comment(commentario)
+						responder.comment(constantes.commentario())
 						
 						/* pago normal */
 						
 						hive.broadcast.customJson(activeKey, [username], [], "ssc-mainnet-hive", JSON.stringify(pago))
-						
-						/* pago comision */
-						
-						/* hive.broadcast.customJson(activeKey, [username], [], "ssc-mainnet-hive", JSON.stringify(comision)) */
 				
 				        console.log(`El usuario ${user} tiene ${usos} usos, y se transfirieron ${cantida_base} ${simbolo} a ${data.parent_author}`)
-							
 							
 						} else {
 							
@@ -180,15 +204,11 @@ bot.onComment((data, responder)=> {
 						
 						/* respuesta normal */
 						
-						responder.comment(commentario)
+						responder.comment(constantes.commentario())
 						
 						/* pago normal */
 						
 						hive.broadcast.customJson(activeKey, [username], [], "ssc-mainnet-hive", JSON.stringify(pago))
-				
-						/* pago comision */
-						
-						/* hive.broadcast.customJson(activeKey, [username], [], "ssc-mainnet-hive", JSON.stringify(comision)) */
 				
 				        console.log(`El usuario ${user} tiene ${usos} usos, y se transfirieron ${cantida_base} ${simbolo} a ${data.parent_author}`)
 						
@@ -198,7 +218,7 @@ bot.onComment((data, responder)=> {
 					
 					/* respuesta si se vota al bot */
 					
-					responder.comment(commentario)
+					responder.comment(constantes.commentario())
 					
 					pago.contractPayload.to = 'eliezer65'
 					
@@ -210,7 +230,7 @@ bot.onComment((data, responder)=> {
 			}
 		} else {
 			
-			console.log(err)
+			console.log('Error en la consulta de saldo')
 			
 		}
 	});		
@@ -219,10 +239,8 @@ bot.onComment((data, responder)=> {
 	
 	/* if (data.author === username) {
 		
-		responder.upvote('50');
-		
-		console.log('El bot se autovoto')
-		
+		responder.upvote();
+
 	} */
 
 });
