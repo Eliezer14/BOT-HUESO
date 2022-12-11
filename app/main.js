@@ -12,6 +12,13 @@ const SSC = require('sscjs');
 
 const ssc = new SSC('https://engine.rishipanthee.com/contracts');
 
+
+/* ssc.findOne("tokens", "balances",  { "symbol": 'HUESO', "account": 'elizer65' }, (err, res) => {
+	console.log(res)
+}); */
+
+
+
 async function findOne(contract, table, query, callback) {
   // Headers
   let config = {
@@ -102,7 +109,7 @@ bot.onComment((data, responder)=> {
 		
 		console.log(`Comando detectado del usuario ${user}`)
 		
-		findOne('tokens', 'balances', { "symbol": 'HUESO', "account": 'eliezer65' }, (err, res) => {
+		findOne('tokens', 'balances', { "symbol": simbolo, "account": user }, (err, res) => {
 			
 		if (res) {
 			
