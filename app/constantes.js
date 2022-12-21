@@ -18,7 +18,7 @@ const simbolo = 'HUESO';
 
 /* mensajes del bot */
 
-const lista_comandos = ['!LOL', '!LUV', '!PGM'];
+const lista_comandos = ['!LOL', '!LUV', '!PGM', '!PIZZA'];
 
 let rotacion_comandos = -1;
 
@@ -31,23 +31,15 @@ if (rotacion_comandos >= lista_comandos.length) {
 	rotacion_comandos = 0
 }
 
-return `![1.png](https://files.peakd.com/file/peakd-hive/nahueldare3627/23wgKh4Rm5uw2BHNEvtU7VbJp45qU2im4Sbw4zZt1AayJpEV9WN1y3XeUaH26WKNGLvyD.png)
+return `<center>[![](https://images.ecency.com/DQmY8vU597ERJKxMvjNmYpTfmxViGC1faE1ZB8XkPsVFd1d/2.png)](https://discord.gg/uEt4nYbsmw)</center>
 
-<center>Se te han entregado 10 TOKEN HUESO
-Conoce el Proyecto Big Dog Bone [lee su White Paper aquí.](https://mundo-virtual.gitbook.io/untitled/)
-Si deseas ganar Tokens del Proyecto Big Dog Bone, usa en tus post las etiquetas #hueso y #mundovirtual
-Apoya nuestro trail de votación aquí [mv-curacion](https://hive.vote/dash.php?trail=mv-curacion&i=1)
-Por cada 10k de hueso en tu cartera puedes usar 2 veces al día el comando !HUESO en los comentarios de los post.</center>
-
+<center>Saludos desde la Comunidad Mundo Virtual. Te enviamos token Hueso para apoyar tu trabajo.
+Haz click sobre el banner, para ser dirigido al Discord de Mundo Virtual y conocer más sobre nuestro proyecto de curación.</center>
 
 ---
 
-
-<center>You have been given 10 TOKEN HUESO.
-Learn about the Big Dog Bone  Project [read their White Paper here.](https://mundo-virtual.gitbook.io/untitled/)
-If you want to win Big Dog Bone Project Tokens, use the hashtags #hueso and #mundovirtual in your posts.
-Support our voting trail here [mv-curation](https://hive.vote/dash.php?trail=mv-curacion&i=1)
-For every 10k of hueso in your wallet you can use 2 times a day the command !HUESO in the comments of the posts.</center>
+<center>Greetings from the Virtual World Community. We send you Hueso token to support your work.
+Click on this banner, to be directed to the Virtual World Discord and learn more about the curation project.</center>
 
 <center>${lista_comandos[rotacion_comandos]}</center>`;
 }
